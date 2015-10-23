@@ -31,7 +31,7 @@ var gameBoard = {
 		elem.className = "";
 	},
 	foodPoint: function(x,y){ // render food point and update 
-		if(this.pointFood.y && this.pointFood.x)
+		if(game.state==1 && this.pointFood.y && this.pointFood.x)
 			this.node.childNodes[(this.pointFood.y * this.size)+this.pointFood.x].className = "glow";
 		
 		this.node.childNodes[(y*this.size)+x].className = "food";
@@ -102,9 +102,9 @@ var game = {
 	level: 0,
 	food: 0,
 	intervalId: null,
-	state: 0, //0 = not started, 1 = in progress, 2 = paused
+	state: 0, //0 = not started, 1 = in progress, 2 = paused, 3 = over
 	init: function(){
-		this.speed=200;this.level=0;this.food=0;
+		this.speed=200;this.level=0;this.food=0;this.state=0;
 		gameBoard.levelNode.innerHTML=0;gameBoard.scoreNode.innerHTML=0;
 		snake.init();
 		gameBoard.newFoodPoint();
@@ -151,6 +151,7 @@ var game = {
 		var score = (this.level*1000) + (this.food*50);
 		alert("Game Over. Your Score is "+score);
 		document.getElementById("startBtn").disabled = false;
+		this.state=3;
 	},
 	pause: function(){
 		clearInterval(this.intervalId);
